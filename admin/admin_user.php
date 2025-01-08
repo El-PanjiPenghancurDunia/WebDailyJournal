@@ -9,6 +9,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>No</th>
+                        <th class="w-25">Gambar</th>
                         <th class="w-25">Nama</th>
                         <th class="w-75">Password</th>
                         <th class="w-25">Role</th>
@@ -25,6 +26,17 @@
                     ?>
                         <tr>
                             <td><?= $no++ ?></td>
+                            <td>
+                            <?php
+                                if ($row["gambar"] != '') {
+                                    if (file_exists('../gambar/' . $row["gambar"] . '')) {
+                                ?>
+                                        <img src="../gambar/<?= $row["gambar"] ?>" width="100">
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </td>
                                 <td>
                                     <?= $row["username"] ?>
                                     
@@ -63,8 +75,28 @@
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="floatingTextarea2">Password</label>
-                                                    <textarea class="form-control" placeholder="Tuliskan Password Baru"  name="password" value="<?= $row["password"] ?>" required></textarea>
+                                                    <textarea class="form-control" placeholder="Tuliskan Password Baru"  name="password"  required><?= $row["password"] ?></textarea>
                                                 </div>
+                                                <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="formGroupExampleInput2" class="form-label">Ganti Gambar</label>
+                                                    <input type="hidden" name="id" value="<?= $row["id"] ?>">
+                                                    <input type="file" class="form-control" name="gambar">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="formGroupExampleInput3" class="form-label">Gambar Lama</label>
+                                                    <?php
+                                                    if ($row["gambar"] != '') {
+                                                        if (file_exists('../gambar/' . $row["gambar"] . '')) {
+                                                    ?>
+                                                            <br><img src="../gambar/<?= $row["gambar"] ?>" width="100">
+                                                    <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <input type="hidden" name="gambar_lama" value="<?= $row["gambar"] ?>">
+                                                </div>
+                                            </div>
                                                 <div class="mb-3">
                                                     <label for="formGroupExampleInput2" class="form-label">Ganti Role</label>
                                                     <input type="text" class="form-control" name="role" placeholder="Tuliskan Role Baru" value="<?= $row["role"] ?>" required>
@@ -94,6 +126,7 @@
                                                     <label for="formGroupExampleInput" class="form-label">Yakin akan menghapus user "<strong><?= $row["username"] ?></strong>"?</label>
                                                     <input type="hidden" name="id" value="<?= $row["id"] ?>">
                                                     <input type="hidden" name="username" value="<?= $row["username"] ?>">
+                                                    <input type="hidden" name="gambar" value="<?= $row["gambar"] ?>">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -127,6 +160,12 @@
                     <form method="post" action="" enctype="multipart/form-data">
                         <div class="modal-body">
                             <div class="mb-3">
+                                <label for="formGroupExampleInput2" class="form-label">Gambar</label>
+                                <input type="file" class="form-control" name="gambar">
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
                                 <label for="formGroupExampleInput2" class="form-label">username</label>
                                 <input type="text" class="form-control" name="username">
                             </div>
@@ -158,28 +197,54 @@ include "../upload_foto.php";
 //jika tombol simpan diklik
 if (isset($_POST['simpan'])) {
     $username = $_POST['username'];
-    $password = md5($_POST['password']);
+    $password = $_POST['password'];
     $role = $_POST['role'];
+    $gambar = '';
+    $nama_gambar = $_FILES['gambar']['name'];
 
+    //upload gambar
+    if ($nama_gambar != '') {
+        $cek_upload = upload_foto($_FILES["gambar"]);
+
+        if ($cek_upload['status']) {
+            $gambar = $cek_upload['message'];
+        } else {
+            echo "<script>
+                alert('" . $cek_upload['message'] . "');
+                document.location='admin.php?page=admin_user';
+            </script>";
+            die;
+        }
+    }
 
     if (isset($_POST['id'])) {
         //update data
         $id = $_POST['id'];
+
+        if ($nama_gambar == '') {
+            //jika tidak ganti gambar
+            $gambar = $_POST['gambar_lama'];
+        } else {
+            //jika ganti gambar, hapus gambar lama
+            unlink("../gambar/" . $_POST['gambar_lama']);
+        }
+
         $stmt = $conn->prepare("UPDATE user 
                                 SET 
+                                gambar = ?,
                                 username = ?,
                                 password = ?,
                                 role = ?
                                 WHERE id = ?");
 
-        $stmt->bind_param("sssi",  $username, $password, $role, $id);
+        $stmt->bind_param("ssssi", $gambar,  $username, $password, $role, $id);
         $simpan = $stmt->execute();
     } else {
 		    //insert data
-        $stmt = $conn->prepare("INSERT INTO user (username, password,role)
-                                VALUES (?,?,?)");
+        $stmt = $conn->prepare("INSERT INTO user (gambar, username, password,role)
+                                VALUES (?,?,?,?)");
 
-        $stmt->bind_param("sss",  $username, $password, $role);
+        $stmt->bind_param("ssss", $gambar, $username, $password, $role);
         $simpan = $stmt->execute();
     }
 
@@ -202,9 +267,15 @@ if (isset($_POST['simpan'])) {
 //jika tombol hapus diklik
 if (isset($_POST['hapus'])) {
     $id = $_POST['id'];
+    $gambar = $_POST['gambar'];
     $username = $_POST['username'];
     $password = $_POST['password'];
     $role = $_POST['role'];
+
+    if ($gambar != '') {
+        //hapus file gambar
+        unlink("../gambar/" . $gambar);
+    }
 
     $stmt = $conn->prepare("DELETE FROM user WHERE id =?");
 

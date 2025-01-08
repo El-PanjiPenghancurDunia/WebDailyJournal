@@ -5,8 +5,8 @@ include "koneksi.php";
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
-    $password = md5($_POST['password']);
-    $confirm_password = md5($_POST['confirm_password']);
+    $password = $_POST['password'];
+    $confirm_password = $_POST['confirm_password'];
     $error_message = '';
 
     // Validate inputs

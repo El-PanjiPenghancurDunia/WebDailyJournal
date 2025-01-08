@@ -181,7 +181,7 @@ if (isset($_POST['simpan'])) {
             $gambar = $_POST['gambar_lama'];
         } else {
             //jika ganti gambar, hapus gambar lama
-            unlink("img/" . $_POST['gambar_lama']);
+            unlink("../gambar/" . $_POST['gambar_lama']);
         }
 
         $stmt = $conn->prepare("UPDATE gallery 
@@ -225,7 +225,7 @@ if (isset($_POST['hapus'])) {
 
     if ($gambar != '') {
         //hapus file gambar
-        unlink("gambar/" . $gambar);
+        unlink("../gambar/" . $gambar);
     }
 
     $stmt = $conn->prepare("DELETE FROM gallery WHERE id =?");

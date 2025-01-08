@@ -10,13 +10,15 @@ include "../koneksi.php";
     <section id="hero" class="text-center text-sm-start p-5 bg-danger-subtle">
       <div class="container">
         <div class="d-sm-flex flex-sm-row-reverse align-items-center">
-          <img src="../gambar/foto2.jpg" class="img-fluid" width="500" alt="" />
-          <div>
-            <h1 class="fw-bold display-4">Ini Adalah Tampilan Home</h1>
-            <h4 class="lead display-6">
-            Gambar disamping adalah sebuah gambar dimana seorang pria menunjuk plat mobil BMW berwarna hitam bertuliskan "H 111 TAM" atau bisa juga disebut HITAM , Karena itulah orangnya mengambil gambar plat nomor mobil tersebut, tidak lain dan bukan adalah karena UNIQUE.
-            </h4>
-          </div>
+            <div class="gambar col-md-4">
+                <img src="../gambar/foto2.jpg" class="img-fluid" width="500" alt="" />
+            </div>
+            <div class="col-md-8">
+                <h1 class="fw-bold display-4" id="nav1">Ini Adalah Tampilan Home</h1>
+                <h4 class="lead display-6">
+                Gambar disamping adalah sebuah gambar dimana seorang pria menunjuk plat mobil BMW berwarna hitam bertuliskan "H 111 TAM" atau bisa juga disebut <b>HITAM</b> , Karena itulah orangnya mengambil gambar plat nomor mobil tersebut, tidak lain dan bukan adalah karena <b> UNIQUE</b>.
+                </h4>
+            </div>
         </div>
       </div>
     </section>

@@ -5,7 +5,7 @@ include "koneksi.php";
 // In login.php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
-    $password = md5($_POST['password']);
+    $password = $_POST['password'];
 
     // Use prepared statement to prevent SQL injection
     $stmt = $conn->prepare("SELECT username, role FROM user WHERE username=? AND password=?");
