@@ -235,7 +235,7 @@ if (isset($_POST['simpan'])) {
         } else {
             echo "<script>
                 alert('" . $cek_upload['message'] . "');
-                document.location='admin.php?page=article';
+                document.location='admin.php?page=admin_article';
             </script>";
             die;
         }
@@ -276,12 +276,12 @@ if (isset($_POST['simpan'])) {
     if ($simpan) {
         echo "<script>
             alert('Simpan data sukses');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=admin_article';
         </script>";
     } else {
         echo "<script>
             alert('Simpan data gagal');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=admin_article';
         </script>";
     }
 
@@ -307,12 +307,12 @@ if (isset($_POST['hapus'])) {
     if ($hapus) {
         echo "<script>
             alert('Hapus data sukses');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=admin_article';
         </script>";
     } else {
         echo "<script>
             alert('Hapus data gagal');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=admin_article';
         </script>";
     }
 
