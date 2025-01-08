@@ -7,7 +7,7 @@ include "../koneksi.php";
 ?>
 
 
-    <section id="hero" class="text-center text-sm-start p-5 bg-danger-subtle">
+<section id="hero" class="text-center text-sm-start p-5 bg-danger-subtle">
       <div class="container">
         <div class="d-sm-flex flex-sm-row-reverse align-items-center">
             <div class="gambar col-md-4">
@@ -281,7 +281,6 @@ include "../koneksi.php";
         text-decoration : none;
         padding : 10px;
         margin: 3px;
-        
     } 
     .facebook{
         border-radius : 10px; 
