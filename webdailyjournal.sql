@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2025 at 05:26 AM
+-- Generation Time: Jan 08, 2025 at 10:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -81,6 +81,7 @@ INSERT INTO `gallery` (`id`, `tanggal`, `gambar`, `username`) VALUES
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
+  `gambar` text NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` text NOT NULL
@@ -90,14 +91,15 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `password`, `role`) VALUES
-(2, 'panji', 'd93591bdf7860e1e4ee2fca799911215', 'user'),
-(3, 'admin', '202cb962ac59075b964b07152d234b70', 'admin'),
-(7, 'andi', '202cb962ac59075b964b07152d234b70', 'user'),
-(17, 'danny', '21232f297a57a5a743894a0e4a801fc3', 'admin'),
-(18, 'tama', '202cb962ac59075b964b07152d234b70', 'user'),
-(19, 'Agiligil', '202cb962ac59075b964b07152d234b70', 'user'),
-(20, 'egi', '202cb962ac59075b964b07152d234b70', 'user');
+INSERT INTO `user` (`id`, `gambar`, `username`, `password`, `role`) VALUES
+(2, '20250108154118.jpg', 'panji', '123', 'user'),
+(3, '20250108154258.jpg', 'admin', 'admin123', 'admin'),
+(7, '20250108154550.jpg', 'andi', '123\r\n', 'user'),
+(17, '20250108154505.jpg', 'danny', 'admin', 'admin'),
+(18, '20250108154716.jpg', 'tama', '123', 'user'),
+(19, '20250108154742.jpg', 'Agiligil', '123', 'user'),
+(20, '20250108154800.jpg', 'egi', '123', 'user'),
+(22, '20250108155452.jpg', 'Agito', '123', 'user');
 
 --
 -- Indexes for dumped tables
@@ -141,7 +143,7 @@ ALTER TABLE `gallery`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
