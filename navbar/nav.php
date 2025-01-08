@@ -15,7 +15,7 @@ function getNavigation($role) {
                     <a class="nav-link" href="admin.php?page=dashboard">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="admin.php?page=article">Manajemen Article</a>
+                    <a class="nav-link" href="admin.php?page=admin_article">Manajemen Article</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="admin.php?page=admin_gallery">Manajemen Gallery</a>

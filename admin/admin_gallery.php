@@ -16,10 +16,28 @@
                 </thead>
                 <tbody>
                     <?php
-                    $sql = "SELECT * FROM gallery ORDER BY tanggal DESC";
+                    $per_page = 4; // Jumlah item per halaman
+                    $page = isset($_GET['hal']) ? (int)$_GET['hal'] : 1; // Ubah 'page' menjadi 'hal'
+                    $start = ($page - 1) * $per_page;
+
+                    // Query untuk mendapatkan total data
+                    $total_query = "SELECT COUNT(*) as total FROM gallery";
+                    $total_result = $conn->query($total_query);
+                    $total_row = $total_result->fetch_assoc();
+                    $total_pages = ceil($total_row['total'] / $per_page);
+
+                    // Pastikan halaman tidak melebihi total halaman
+                    if($page > $total_pages) {
+                        $page = $total_pages;
+                    }
+                    if($page < 1) {
+                        $page = 1;
+                    }                    
+
+                    $sql = "SELECT * FROM gallery ORDER BY tanggal DESC LIMIT $start, $per_page";
                     $hasil = $conn->query($sql);
 
-                    $no = 1;
+                    $no = ($page - 1) * $per_page + 1;
                     while ($row = $hasil->fetch_assoc()) {
                     ?>
                         <tr>
@@ -118,6 +136,36 @@
                     ?>
                 </tbody>
             </table>
+            <!-- paginasi -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <?php if($page > 1): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="admin.php?page=admin_gallery&hal=<?= $page-1 ?>">Previous</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="page-item disabled">
+                            <span class="page-link">Previous</span>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php for($i = 1; $i <= $total_pages; $i++): ?>
+                        <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                            <a class="page-link" href="admin.php?page=admin_gallery&hal=<?= $i ?>"><?= $i ?></a>
+                        </li>
+                    <?php endfor; ?>
+
+                    <?php if($page < $total_pages): ?>
+                        <li class="page-item">
+                            <a class="page-link" href="admin.php?page=admin_gallery&hal=<?= $page+1 ?>">Next</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="page-item disabled">
+                            <span class="page-link">Next</span>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
         </div>
         <!-- Awal Modal Tambah-->
         <div class="modal fade" id="modalTambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
